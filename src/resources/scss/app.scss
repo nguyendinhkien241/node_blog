@@ -1,0 +1,19 @@
+@import "variables";
+
+h1 {
+    color: $red-color;
+}
+
+h2{
+    color: green;
+}
+
+header {
+    color: purple;
+    font-size: 2rem;
+}
+
+footer {
+    color: blue;
+    font-size: 1.5rem;
+}
