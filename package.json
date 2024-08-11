@@ -4,8 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
+    "beautiful":"lint-staged",
     "start": "nodemon --inspect src/index.js",
-    "watch":"node-sass -w src/resources/scss/ -o src/public/css/",
+    "watch": "node-sass -w src/resources/scss/ -o src/public/css/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,13 +25,24 @@
     "url": "https://github.com/nguyendinhkien241/node_blog/issues"
   },
   "homepage": "https://github.com/nguyendinhkien241/node_blog#readme",
+  "lint-staged": {
+    "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write --tab-width 4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit":"lint-staged"
+    }
+  },
   "dependencies": {
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2"
   },
   "devDependencies": {
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.8",
     "morgan": "^1.10.0",
     "node-sass": "^9.0.0",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "prettier": "^3.3.3"
   }
 }
