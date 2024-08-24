@@ -23,7 +23,7 @@ class CourseController {
         req.body.image = `https://files.fullstack.edu.vn/f8-prod/courses/7.png`;
         const course = new Course(req.body);
         course.save()
-            .then(() => res.redirect('/'))
+            .then(() => res.redirect('/me/storage/courses'))
             .catch(error => {
             })
     }
@@ -64,6 +64,26 @@ class CourseController {
         Course.restore({_id: req.params.id})
             .then(() => res.redirect('back'))
             .catch(next)
+    }
+
+    forceDelete(req, res, next) {
+        Course.deleteOne({_id: req.params.id})
+            .then(() => res.redirect('back'))
+            .catch(next)
+    }
+
+    handleFormActions(req, res, next) {
+        switch(req.body.action) {
+            case 'delete':
+                {
+                    Course.delete({_id: {$in: req.body.courseIds}})
+                        .then(() => res.redirect('back')) 
+                        .catch(next);
+                    break;
+                }
+            default:
+                res.json({Message: 'Invalid action'})
+        }
     }
 
 }

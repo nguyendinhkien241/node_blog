@@ -6,11 +6,24 @@ const { mongooseToObject } = require('../../util/mongoose');
 class MeController {
 
     storageCourses(req, res,next) {
-        Course.find({})
-            .then(courses => res.render('./me/storage_courses', {
+        Promise.all([Course.find({}), Course.countDocumentsWithDeleted({deleted: true})])
+            .then(([courses, deletedCount]) => res.render('me/storage_courses', {
+                deletedCount,
                 courses: multipleMongooseToObject(courses)
             }))
-            .catch(next);
+            .catch(next)
+
+        // Course.countDocumentsDeleted()
+        //     .then((deletedCount) => {
+
+        //     })
+        //     .catch((err) => {})
+
+        // Course.find({})
+        //     .then(courses => res.render('./me/storage_courses', {
+        //         courses: multipleMongooseToObject(courses)
+        //     }))
+        //     .catch(next);
     }
 
     trashCourses(req, res, next) {
