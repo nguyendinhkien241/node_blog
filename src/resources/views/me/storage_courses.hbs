@@ -18,7 +18,7 @@
         <option>5</option>
       </select>
 
-      <button class="btn btn-aplication btn-primary btn-sm disabled">Áp dụng</button>
+      <button class="btn btn-application btn-primary btn-sm" disabled>Áp dụng</button>
     </div>
     <table class="table mt-4">
         <thead>
@@ -83,15 +83,15 @@
       </div>
     </div>
   </div>
+</div>
 
-
-  <script>
+ <script>
     document.addEventListener('DOMContentLoaded', function() { // when dom is filled 
         var courseId;
         var deleteForm = document.forms['delete-form'];
         var cbAll = $('#cb-all')
         var courseItemCb = $('input[name="courseIds[]"]');
-        var btnApply = $('.btn-aplication');
+        var btnApply = $('.btn-application');
         var containerForm = $('#container-form');
 
         $('#delete-course').on('show.bs.modal', function (event) {
@@ -122,21 +122,14 @@
           var checkedCount = courseItemCb.filter(':checked').length;
           console.log(checkedCount);
           if(checkedCount > 0) {
-            btnApply.removeClass('disabled');
+            btnApply.attr('disabled', false);
           } else {
-            btnApply.addClass('disabled');
+            btnApply.attr('disabled', true);
           }
         }
-
-       
-
-        btnApply.on('submit', function(e) {
-          var isSubmitable = !$(this).hasClass('disabled');
-          if(!isSubmitable) {        
-            e.preventDefault();
-          }
-        })
 
 
     })
   </script>
+
+ 

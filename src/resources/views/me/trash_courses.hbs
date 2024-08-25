@@ -1,4 +1,4 @@
-<div class="mt-4">
+<form id="form-container" class="mt-4" method="POST" action="/courses/handle-trash-form-actions">
     <h3>Khóa học đã xóa</h3>
     <a href="/me/storage/courses">Trang khóa học</a>
 
@@ -16,7 +16,7 @@
         <option value="forceDelete">Xóa hoàn toàn</option>
       </select>
 
-      <button class="btn btn-aplication btn-primary btn-sm disabled">Áp dụng</button>
+      <button class="btn btn-application btn-primary btn-sm" disabled>Áp dụng</button>
     </div>
     <table class="table mt-4">
         <thead>
@@ -55,7 +55,7 @@
             {{/each}}
         </tbody>
     </table>
-</div>
+</form>
 
 {{!-- hidden delete form --}}
 <form name="delete-form" method="POST"></form>
@@ -83,13 +83,18 @@
   </div>
 
 
-  <script>
+</div>
+
+<script>
     document.addEventListener('DOMContentLoaded', function() { // when dom is filled 
         var courseId;
         var deleteForm = document.forms['delete-form'];
         var restoreForm = document.forms['restore-form'];
         var btnRestore = $('.btn-restore');
-
+        var cbAll = $('#cb-all');
+        var courseDeletedItems = $('input[name="courseIds[]"]');
+        var btnApply = $('.btn-application');
+        var formContainer = $('#form-container');
 
         $('#delete-course').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
@@ -109,5 +114,28 @@
             restoreForm.action = '/courses/' +courseId+ '/restore?_method=PATCH';
             restoreForm.submit();
         })
+
+        cbAll.change(function() {
+          var isCheckedAll = $(this).prop('checked');
+          courseDeletedItems.prop('checked', isCheckedAll);
+          statusOfBtn();
+
+        })
+
+        courseDeletedItems.change(function() {
+          var isCheckedAll = courseDeletedItems.length === courseDeletedItems.filter(':checked').length;
+          cbAll.prop('checked', isCheckedAll);
+          statusOfBtn();
+        })
+
+        function statusOfBtn() {
+          var checkedCount = courseDeletedItems.filter(':checked').length;
+          console.log(checkedCount);
+          if(checkedCount > 0) {
+            btnApply.attr('disabled', false);
+          } else {
+            btnApply.attr('disabled', true);
+          }
+        }
     })
   </script>
