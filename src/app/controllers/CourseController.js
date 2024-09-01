@@ -19,13 +19,12 @@ class CourseController {
         res.render('courses/create');
     }
 
-    store(req, res) {
+    store(req, res, next) {
         req.body.image = `https://files.fullstack.edu.vn/f8-prod/courses/7.png`;
         const course = new Course(req.body);
         course.save()
             .then(() => res.redirect('/me/storage/courses'))
-            .catch(error => {
-            })
+            .catch(next);
     }
 
     // async store(req, res) {
@@ -100,6 +99,7 @@ class CourseController {
                     Course.deleteMany({_id: {$in: req.body.courseIds}})
                         .then(() => res.redirect('back')) 
                         .catch(next);
+                    break;
                 }
             default:
                 res.json({Message: 'Invalid action'})
